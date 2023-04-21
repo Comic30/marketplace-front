@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { TezosToolkit } from "@taquito/taquito";
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import {
   NetworkType,
@@ -7,8 +6,6 @@ import {
   BeaconEvent,
   defaultEventCallbacks,
 } from "@airgap/beacon-sdk";
-
-const Tezos = new TezosToolkit("https://ghostnet.smartpy.io/");
 
 const ConnectButton = ({}) => {
   // const [wallet, setWallet] = useState();

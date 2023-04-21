@@ -1,59 +1,54 @@
 [
-    {    
-        "dataUp" :[
-            {
-                "path":"/Auctions",
-                "title":"Live Auctions"
-            },
-            {
-                "path":"/Discover",
-                "title":"Discover style"
-            },
-            {
-                "path":"/ItemDetails",
-                "title":"Item Details"
-            }
-        ]
-    },
-    {    
-        "dataDown" : [
-            {
-                "path":"/ConnectWallet",
-                "title":"Wallet Connec"
-            },
-            {
-                "path":"/CreateItem",
-                "title":"Create Item"
-            },
-            {
-                "path":"/Authors",
-                "title":"Authors"
-            },
-            {
-                "path":"/Profile",
-                "title":"Author Profile"
-            },
-            {
-                "path":"/Logins",
-                "title":"Login"
-            },
-            {
-                "path":"/SignUps",
-                "title":"Sign Up"
-            }
-        ]
-
-    },
-    {
-        "CommunityData":[
-            {
-                "path":"/Blog",
-                "title":"Blog"
-            },
-            {
-                "path":"/Details",
-                "title":"Post Details"
-            }
-        ]
-    }
+  {
+    "dataUp": [
+      {
+        "path": "/Auctions",
+        "title": "Live Auctions"
+      },
+      {
+        "path": "/Discover",
+        "title": "Discover style"
+      },
+      {
+        "path": "/ItemDetails",
+        "title": "Item Details"
+      }
+    ]
+  },
+  {
+    "dataDown": [
+      {
+        "path": "/CreateItem",
+        "title": "Create Item"
+      },
+      {
+        "path": "/Authors",
+        "title": "Authors"
+      },
+      {
+        "path": "/Profile",
+        "title": "Author Profile"
+      },
+      {
+        "path": "/Logins",
+        "title": "Login"
+      },
+      {
+        "path": "/SignUps",
+        "title": "Sign Up"
+      }
+    ]
+  },
+  {
+    "CommunityData": [
+      {
+        "path": "/Blog",
+        "title": "Blog"
+      },
+      {
+        "path": "/Details",
+        "title": "Post Details"
+      }
+    ]
+  }
 ]
