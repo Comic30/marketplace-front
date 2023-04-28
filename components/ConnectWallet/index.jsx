@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BeaconWallet } from "@taquito/beacon-wallet";
+
 import {
   NetworkType,
   ColorMode,
@@ -7,12 +8,14 @@ import {
   defaultEventCallbacks,
 } from "@airgap/beacon-sdk";
 
+import { Tezos, useTezosCollectStore } from "../../api/store";
 const ConnectButton = ({}) => {
   // const [wallet, setWallet] = useState();
   const [userAddress, setUserAddress] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
   const [beaconConnection, setBeaconConnection] = useState(null);
 
+  const { setActiveAddress, initializeContracts } = useTezosCollectStore();
   const options = {
     name: "Template",
     preferredNetwork: NetworkType.GHOSTNET,
@@ -35,20 +38,22 @@ const ConnectButton = ({}) => {
 
   const setup = async (userAddress) => {
     setUserAddress(userAddress);
+    setActiveAddress(userAddress);
     // updates balance
-    console.log(userAddress);
     const balance = await Tezos.tz.getBalance(userAddress);
     setUserBalance(balance.toNumber());
-    console.log(balance.toNumber());
     Tezos.setWalletProvider(wallet);
   };
 
   const connectWallet = async () => {
     try {
+      console.log("TOKEN_STORAGE_API_KEY", process.env.TOKEN_STORAGE_API_KEY);
+
       const activeAccount = await wallet.client.getActiveAccount();
       if (activeAccount) {
         Tezos.setWalletProvider(wallet);
         setUserAddress(activeAccount.address);
+        setActiveAddress(activeAccount.address);
       }
       await wallet.requestPermissions({
         network: {
@@ -59,6 +64,7 @@ const ConnectButton = ({}) => {
       // gets user's address
       const userAddress = await wallet.getPKH();
       await setup(userAddress);
+      await initializeContracts();
       setBeaconConnection(true);
     } catch (error) {
       console.log(error);

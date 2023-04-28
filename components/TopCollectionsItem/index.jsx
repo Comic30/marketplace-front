@@ -1,23 +1,32 @@
-import Link from 'next/link'
+import Link from "next/link";
 
-function TopCollectionsItem({img , title , text , Delay}){
-  return(
+function TopCollectionsItem({ img, name, price }) {
+  return (
     <div className="col-12 col-md-6 col-lg-3">
-        <Link href='/Discover'>
-            <a>
-                <div className="service_single_content collection-item" data-aos-delay={Delay} data-aos="fade-up">
-                    <div className="collection_icon">
-                        <img src={img} alt="" />
-                    </div>
-                    <div className="collection_info">
-                        <h6>{title}</h6>
-                        <p>Owner : <span className="w-text">{text}</span></p>
-                    </div>
-                </div>
-            </a>
-        </Link>
+      <Link href="/Discover">
+        <a>
+          <div
+            className="service_single_content collection-item"
+            data-aos="fade-up"
+          >
+            <div className="collection_icon">
+              <img
+                style={{ height: "250px", width: "100%" }}
+                src={`https://ipfs.io/ipfs/${img.split("ipfs://")[1]}`}
+                alt=""
+              />
+            </div>
+            <div className="collection_info">
+              <h6>{name}</h6>
+              <p>
+                Owner : <span className="w-text">owner</span>
+              </p>
+            </div>
+          </div>
+        </a>
+      </Link>
     </div>
-  )
+  );
 }
 
-export default TopCollectionsItem
+export default TopCollectionsItem;
