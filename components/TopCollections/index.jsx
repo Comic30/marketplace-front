@@ -11,7 +11,6 @@ function TopCollectionsContainer() {
   useEffect(() => {
     fetchNft();
   }, []);
-  console.log("tokenData", tokenData);
   return (
     <section className="section-padding-100 clearfix">
       <div className="container">
@@ -28,6 +27,8 @@ function TopCollectionsContainer() {
                 img={item.image}
                 price={item.amount}
                 name={item.name}
+                token_id={item.token_id}
+                is_own={false}
               />
             ))}
         </div>

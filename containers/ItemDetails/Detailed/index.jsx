@@ -1,16 +1,20 @@
-import DetailedImg from "../../../assets/img/art-work/detailed.jpg"
+import DetailedImg from "../../../assets/img/art-work/detailed.jpg";
 
-const Detailed = () => {
-
+const Detailed = ({ img }) => {
+  console.log(img);
   return (
     <>
       <div className="col-12 col-lg-5">
-          <div className="detailed-img">
-              <img src={DetailedImg.src} alt="" />
-          </div>
+        <div className="detailed-img">
+          <img
+            src={`https://ipfs.io/ipfs/${img.split("ipfs://")[1]}`}
+            alt=""
+            style={{ height: "600px", width: "100%" }}
+          />
+        </div>
       </div>
     </>
   );
-}
+};
 
 export default Detailed;

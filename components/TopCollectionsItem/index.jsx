@@ -1,9 +1,15 @@
 import Link from "next/link";
 
-function TopCollectionsItem({ img, name, price }) {
+function TopCollectionsItem({ img, name, price, token_id, is_own }) {
   return (
     <div className="col-12 col-md-6 col-lg-3">
-      <Link href="/Discover">
+      <Link
+        href={
+          is_own == false
+            ? `/ItemDetails/${token_id}`
+            : `/CreateAuctions/${token_id}`
+        }
+      >
         <a>
           <div
             className="service_single_content collection-item"

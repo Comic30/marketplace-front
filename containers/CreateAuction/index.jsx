@@ -1,16 +1,15 @@
 import Breadcumb from "../../components/Breadcumb";
-import Detailed from "./Detailed";
+import Detailed from "../ItemDetails/Detailed";
 import SidebarArea from "./SidebarArea";
-import HighestBid from "./HighestBid";
-import TestPopup from "./TestPopup";
 
 import { useRouter } from "next/router";
 import { useTezosCollectStore } from "api/store";
 import { useEffect } from "react";
+import AuctionForm from "./AuctionForm";
 
 // import '../../assets/css/itemDetails.css'
 
-const ItemDetailsContainer = () => {
+const CreateAuctionContainer = () => {
   const router = useRouter();
   const { id } = router.query;
   const { tokenData, fetchNft } = useTezosCollectStore();
@@ -23,7 +22,7 @@ const ItemDetailsContainer = () => {
 
   return (
     <>
-      <Breadcumb namePage="Item Details" title="Item Details" />
+      <Breadcumb namePage="Create Auction" title="Create Auction" />
       <section className="section-padding-100">
         <div className="container">
           {tokenData && tokenData[id] ? (
@@ -31,17 +30,15 @@ const ItemDetailsContainer = () => {
               <Detailed img={tokenData[id].image} />
 
               <SidebarArea />
-
-              <HighestBid />
+              <AuctionForm />
             </div>
           ) : (
             <></>
           )}
         </div>
       </section>
-      <TestPopup />
     </>
   );
 };
 
-export default ItemDetailsContainer;
+export default CreateAuctionContainer;

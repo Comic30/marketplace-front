@@ -8,10 +8,6 @@
       {
         "path": "/Discover",
         "title": "Discover"
-      },
-      {
-        "path": "/ItemDetails",
-        "title": "Item Details"
       }
     ]
   },
@@ -20,6 +16,10 @@
       {
         "path": "/CreateItem",
         "title": "Create Item"
+      },
+      {
+        "path": "/MyItems",
+        "title": "My NFT"
       },
       {
         "path": "/Authors",

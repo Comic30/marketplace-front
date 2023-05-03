@@ -45,6 +45,13 @@ const ConnectButton = ({}) => {
     Tezos.setWalletProvider(wallet);
   };
 
+  const makeShort = (userAddress) => {
+    return (
+      userAddress.substring(0, 4) +
+      "....." +
+      userAddress.substring(userAddress.length - 4)
+    );
+  };
   const connectWallet = async () => {
     try {
       console.log("TOKEN_STORAGE_API_KEY", process.env.TOKEN_STORAGE_API_KEY);
@@ -73,7 +80,7 @@ const ConnectButton = ({}) => {
 
   return (
     <div className="btn login-btn ml-50" onClick={connectWallet}>
-      {userAddress ? userAddress : "Connect Wallet"}
+      {userAddress ? makeShort(userAddress) : "Connect Wallet"}
     </div>
   );
 };
