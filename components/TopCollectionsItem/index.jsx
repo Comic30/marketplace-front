@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-function TopCollectionsItem({ img, name, price, token_id, is_own }) {
+function TopCollectionsItem({ img, name, price, token_id, owner, is_own }) {
   return (
     <div className="col-12 col-md-6 col-lg-3">
       <Link
@@ -25,7 +25,7 @@ function TopCollectionsItem({ img, name, price, token_id, is_own }) {
             <div className="collection_info">
               <h6>{name}</h6>
               <p>
-                Owner : <span className="w-text">owner</span>
+                Owner : <span className="w-text">{owner}</span>
               </p>
             </div>
           </div>

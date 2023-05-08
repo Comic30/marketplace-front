@@ -9,7 +9,7 @@ const Detailed = ({ img }) => {
           <img
             src={`https://ipfs.io/ipfs/${img.split("ipfs://")[1]}`}
             alt=""
-            style={{ height: "600px", width: "100%" }}
+            style={{ height: "300px", width: "100%" }}
           />
         </div>
       </div>

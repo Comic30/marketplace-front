@@ -1,34 +1,40 @@
-import InfoComponent from '../InfoComponent'
-import LiveAuctionsItem from '../LiveAuctionsItem'
-import {LiveAuctionsData} from '../../data/data-components/data-LiveAuctions.js'
-// import LiveAuctionsData from './data.json'
+import InfoComponent from "../InfoComponent";
+import LiveAuctionsItem from "../LiveAuctionsItem";
+import { useTezosCollectStore } from "api/store";
+import { useEffect, useState } from "react";
 
-// import './liveAuctions.css'
+function LiveAuctionsContainer() {
+  const { auctionData, fetchAuctionData } = useTezosCollectStore();
+  const [filteredData, setFilteredData] = useState();
 
-function LiveAuctionsContainer(){
-  return(
+  useEffect(() => {
+    fetchAuctionData();
+  }, []);
+
+  useEffect(() => {
+    if (auctionData) {
+      console.log("auctionData", auctionData);
+      // setFilteredData(tokenData.filter((item) => item.collectable == true));
+    }
+  }, [auctionData]);
+
+  return (
     <section className="features  section-padding-50 ">
-
-        <div className="container">
-            <InfoComponent
-              titleSm='Live auctions'
-              titleLg='Live auctions'
-              text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis accumsan nisi Ut ut felis congue nisl hendrerit commodo.'
-            />
-            <div className="row align-items-center">
-            	{LiveAuctionsData && LiveAuctionsData.map((item , i) => (
-	                <LiveAuctionsItem
-                      key={i}
-          						imgBig={item.imgBig.src}
-          						imgSm={item.imgSm.src}
-          						title={item.title}
-          						text={item.text}
-	                />
-            	))}         
-            </div>
+      <div className="container">
+        <InfoComponent
+          titleSm="Live auctions"
+          titleLg="Live auctions"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis accumsan nisi Ut ut felis congue nisl hendrerit commodo."
+        />
+        <div className="row align-items-center">
+          {auctionData &&
+            auctionData.map((item, i) => (
+              <LiveAuctionsItem key={i} data={auctionData[i]} />
+            ))}
         </div>
+      </div>
     </section>
-  )
+  );
 }
 
-export default LiveAuctionsContainer
+export default LiveAuctionsContainer;

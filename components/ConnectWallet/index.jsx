@@ -15,7 +15,8 @@ const ConnectButton = ({}) => {
   const [userBalance, setUserBalance] = useState(null);
   const [beaconConnection, setBeaconConnection] = useState(null);
 
-  const { setActiveAddress, initializeContracts } = useTezosCollectStore();
+  const { activeAddress, setActiveAddress, initializeContracts } =
+    useTezosCollectStore();
   const options = {
     name: "Template",
     preferredNetwork: NetworkType.GHOSTNET,
@@ -54,8 +55,6 @@ const ConnectButton = ({}) => {
   };
   const connectWallet = async () => {
     try {
-      console.log("TOKEN_STORAGE_API_KEY", process.env.TOKEN_STORAGE_API_KEY);
-
       const activeAccount = await wallet.client.getActiveAccount();
       if (activeAccount) {
         Tezos.setWalletProvider(wallet);
@@ -80,7 +79,7 @@ const ConnectButton = ({}) => {
 
   return (
     <div className="btn login-btn ml-50" onClick={connectWallet}>
-      {userAddress ? makeShort(userAddress) : "Connect Wallet"}
+      {activeAddress ? makeShort(activeAddress) : "Connect Wallet"}
     </div>
   );
 };

@@ -3,74 +3,83 @@ import Head from "next/head";
 import authors1 from "../../../assets/img/authors/1.png";
 import Countdown from "on-react-countdown";
 import { useState } from "react";
+import authors8 from "../../../assets/img/authors/8.png";
+import { useTezosCollectStore } from "api/store";
 
 // import data from './data.json'
 
-const AuctionForm = () => {
+const AuctionForm = ({ tokenData }) => {
+  const { listWithAuction, listWithFixedPrice } = useTezosCollectStore();
   const [expiryDate, setExpiryDate] = useState();
-  const [expectedPrice, setExpectedPrice] = useState();
+  const [startPrice, setStartPrice] = useState(0);
   const onChange = (e) => {
     e.preventDefault();
+    setExpiryDate(new Date(e.target.valueAsNumber).toISOString());
   };
+
+  const listNft = async (e) => {
+    e.preventDefault();
+
+    await listWithAuction({
+      start_price: startPrice,
+      token_id: tokenData.token_id,
+      end_time: expiryDate,
+    });
+    // await listWithFixedPrice({
+    //   price: startPrice,
+    //   token_id: tokenData.token_id,
+    // });
+  };
+
+  const makeShort = (userAddress) => {
+    return (
+      userAddress.substring(0, 4) +
+      "....." +
+      userAddress.substring(userAddress.length - 4)
+    );
+  };
+
   return (
     <>
       <div className="col-12 col-lg-3 mt-s">
         <div className="sidebar-area">
           <div className="donnot-miss-widget">
-            <h4 className="mb-15 mt-30">History</h4>
-            <div className="highest-bid bid-item">
-              <div className="author-item mb-0">
-                <div className="author-img ml-0">
-                  <img src={authors1.src} width="40" alt="" />
-                </div>
-                <div className="author-info">
-                  <p>
-                    Listed by<span className="w-text"> Amillia Nnor</span>
-                  </p>
-                  <p>
-                    Price<span className="w-text mr-15"> 0.212 ETH</span>
-                    <span>
-                      <i className="fa fa-clock-o mr-5p"></i>01:36 AM
-                    </span>
-                  </p>
-                </div>
+            <div className="author-item mb-30">
+              <div className="author-img ml-0">
+                <img src={authors8.src} width="70" alt="" />
+              </div>
+              <div className="author-info">
+                <Link href="/Profile">
+                  <h5 className="author-name">{makeShort(tokenData.owner)}</h5>
+                </Link>
+                <p className="author-earn mb-0">Item Owner</p>
               </div>
             </div>
 
             <div className="biding-end">
-              <h4 className="mb-15">Auction End At :</h4>
+              <h4 className="mb-12">Auction End At :</h4>
               <p>
                 {" "}
                 End Date :{" "}
-                <input
-                  type="date"
-                  name="expiry-date"
-                  value={expiryDate}
-                  onChange={onChange}
-                />
+                <input type="date" name="expiry-date" onChange={onChange} />
               </p>
-            </div>
-            <div className="blank">
-              <span />{" "}
             </div>
             <div className="price">
               <p>
-                Expected Price :{" "}
+                Price :{" "}
                 <input
                   type="number"
                   name="price"
                   id="price"
-                  value={expectedPrice}
-                  onChange={(e) => setExpectedPrice(e.target.value)}
+                  value={startPrice}
+                  onChange={(e) => setStartPrice(e.target.value)}
                   required
                 />
               </p>
             </div>
-            <Link href="#test-popup">
-              <a className="open-popup-link more-btn width-100 mt-30">
-                Create Auction
-              </a>
-            </Link>
+            <div className="btn login-btn ml-50" onClick={listNft}>
+              Create Auction
+            </div>
           </div>
         </div>
       </div>

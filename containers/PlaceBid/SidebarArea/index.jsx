@@ -13,7 +13,7 @@ const SidebarArea = ({ tokenData }) => {
           <div className="donnot-miss-widget">
             <div className="mb-15 gray-text">
               <span className="w-text mr-15">
-                Current Price: {tokenData.price} TEZ{" "}
+                Current Price: {tokenData.start_price} TEZ{" "}
               </span>
             </div>
             <div className="details-list">
@@ -41,11 +41,26 @@ const SidebarArea = ({ tokenData }) => {
                 <p className="author-earn mb-0">Item Owner</p>
               </div>
             </div>
-            <Link href="#test-popup">
-              <a className="open-popup-link more-btn width-100 mt-30">
-                Purchase Now
-              </a>
-            </Link>
+            <div className="highest-bid">
+              <h5 className="w-text mb-15">Highest Bid</h5>
+              <div className="admire">
+                <div className="adm w-text">
+                  <img src={authors2.src} width="30" alt="" className="mr-5p" />
+                  Wadee-Nel
+                </div>
+                <div className="adm">
+                  <img
+                    src={artworkfire.src}
+                    width="30"
+                    alt=""
+                    className="mr-5p"
+                  />
+                  <span className="bold mr-5p">
+                    {tokenData.current_price} TEZ
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

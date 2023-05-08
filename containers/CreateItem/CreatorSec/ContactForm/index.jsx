@@ -6,10 +6,11 @@ import {
 import { useFilePicker } from "use-file-picker";
 import { File } from "nft.storage";
 import { nftStorage, Tezos, useTezosCollectStore } from "api/store";
-
+import { useRouter } from "next/router";
 // import data from './data.json'
 
 const ContactForm = () => {
+  const router = useRouter();
   const [openFileSelector, { filesContent }] = useFilePicker({
     accept: [".png", ".jpg", ".jpeg"],
     multiple: false,
@@ -23,7 +24,7 @@ const ContactForm = () => {
   const [royalties, setRoyalties] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { nftMint, nftContract } = useTezosCollectStore();
+  const { nftMint } = useTezosCollectStore();
   const onSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -32,18 +33,22 @@ const ContactForm = () => {
       type: "image/" + filesContent[0].name.split(".")[1],
     });
 
-    console.log("nftContract", nftContract);
     // upload img to ipfs
     const metadata = await nftStorage.store({
       name: name,
       description: description,
+      artist: "Luan",
+      size: "3000x300",
+      collection: "My Art",
+      decimals: 0,
+      symbol: "TBY",
       image: imgFile,
     });
 
     console.log(metadata.url);
 
     // mint
-    await nftMint({ price, metadata: metadata.url });
+    await nftMint({ amount: price, metadata: metadata.url });
 
     setIsLoading(false);
     setName("");
@@ -51,6 +56,7 @@ const ContactForm = () => {
     setPrice(0);
     setAmount(0);
     setRoyalties(0);
+    router.push("/MyItems");
   };
 
   return (

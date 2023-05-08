@@ -13,15 +13,13 @@ function MyItemsContainer() {
   }, []);
 
   useEffect(() => {
-    console.log("activeAddress", activeAddress);
     if (tokenData) {
       setFilteredData(
         tokenData.filter(
-          (item) => item.holder == "tz1YbnMWybFi49UDYKbv3kb4dnCxJJcnYFYA"
+          (item) => item.owner == activeAddress && item.collectable == false
         )
       );
     }
-    console.log("filteredData", filteredData);
   }, [tokenData]);
   return (
     <section className="section-padding-100 clearfix">
@@ -40,6 +38,7 @@ function MyItemsContainer() {
                 price={item.amount}
                 name={item.name}
                 token_id={item.token_id}
+                owner={item.owner}
                 is_own={true}
               />
             ))}

@@ -5,7 +5,8 @@ import Countdown from "on-react-countdown";
 
 // import data from './data.json'
 
-const HighestBid = () => {
+const HighestBid = ({ tokenData }) => {
+  const end_time = (new Date(tokenData.end_time).getTime() - Date.now()) / 1000;
   return (
     <>
       <div className="col-12 col-lg-3 mt-s">
@@ -25,11 +26,10 @@ const HighestBid = () => {
                     by<span className="w-text"> {item.text}</span>
                   </p>
                   <p>
-                    Bid at<span className="w-text"> {item.bid} ETH</span>
+                    Bid at<span className="w-text"> {item.bid} TEZ</span>
                   </p>
                 </div>
                 <div className="bid-price">
-                  <p>$346.38</p>
                   <p>
                     <i className="fa fa-clock-o mr-5p"></i>
                     {item.time} AM
@@ -37,6 +37,20 @@ const HighestBid = () => {
                 </div>
               </div>
             ))}
+        </div>
+        <div className="biding-end">
+          {end_time < 0 ? (
+            <div>
+              <h4 className="mb-15">Auction Ended :</h4>
+            </div>
+          ) : (
+            <div>
+              <h4 className="mb-15">Auction Ends In :</h4>
+              <div className="count-down titled circled text-center">
+                <Countdown end={end_time} />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

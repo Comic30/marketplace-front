@@ -7,7 +7,6 @@ import CreatorSec from "./CreatorSec";
 const CreateItemContainer = () => {
   return (
     <>
-      <Breadcumb namePage="Create New Item" title="Create New Item" />
       <section className="blog-area section-padding-100">
         <div className="container">
           <div className="row">

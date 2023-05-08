@@ -1,0 +1,10 @@
+{
+  "name": "My Token",
+  "artist": "LarySmith-30",
+  "size": "3000x300",
+  "collection": "Cyberpunk City Art",
+  "description": "This is a test NFT",
+  "decimals": 0,
+  "symbol": "TBY",
+  "image": "ipfs://bafybeiaatynwic2swj5aiww4hx363p4wx2erf3ndlaxrkhrvhqqntz763e/QmNkGeZtVFmJ4kUG267phjietpt2Y19dFSvkBgbwktd7ZM.jpeg"
+}
