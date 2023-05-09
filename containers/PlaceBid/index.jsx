@@ -1,7 +1,7 @@
 import Breadcumb from "../../components/Breadcumb";
 import Detailed from "./Detailed";
 import SidebarArea from "./SidebarArea";
-import HighestBid from "./HighestBid";
+import LatestBid from "./LatestBid";
 
 import { useRouter } from "next/router";
 import { useTezosCollectStore } from "api/store";
@@ -31,11 +31,11 @@ const PlaceBidContainer = () => {
         <div className="container">
           {currentToken && currentToken[0] && currentToken[0].image ? (
             <div className="row">
-              <Detailed img={currentToken[0].image} />
+              <Detailed tokenData={currentToken[0]} />
 
               <SidebarArea tokenData={currentToken[0]} />
 
-              <HighestBid tokenData={currentToken[0]} />
+              <LatestBid tokenData={currentToken[0]} />
             </div>
           ) : (
             <></>

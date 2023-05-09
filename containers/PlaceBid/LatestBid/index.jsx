@@ -5,7 +5,7 @@ import Countdown from "on-react-countdown";
 
 // import data from './data.json'
 
-const HighestBid = ({ tokenData }) => {
+const LatestBid = ({ tokenData }) => {
   const end_time = new Date(tokenData.end_time).getTime() / 1000;
   const diff = end_time - Date.now() / 1000;
   return (
@@ -58,4 +58,4 @@ const HighestBid = ({ tokenData }) => {
   );
 };
 
-export default HighestBid;
+export default LatestBid;

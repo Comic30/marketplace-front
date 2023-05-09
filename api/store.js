@@ -203,7 +203,7 @@ export const useTezosCollectStore = create((set, get) => ({
           auctionData[i] = {
             ...l1,
             ...l2,
-            ...l3,
+            bid_data: l3,
             token_id: d2[j].value.token_id,
           };
           break;
@@ -237,6 +237,20 @@ export const useTezosCollectStore = create((set, get) => ({
 
     const op = await _marketPlaceContract?.methods
       .collect(token_id)
+      .send({ mutez: true, amount: price });
+    await op.confirmation();
+    return true;
+  },
+  placeBid: async (token_id, price) => {
+    if (get().activeAddress === "") {
+      alert("Need to connect wallet first!");
+      return false;
+    }
+    if (get().contractReady === false) return false;
+    const _marketPlaceContract = get().marketPlaceContract;
+
+    const op = await _marketPlaceContract?.methods
+      .place_bid(token_id)
       .send({ mutez: true, amount: price });
     await op.confirmation();
     return true;
