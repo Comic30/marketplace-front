@@ -6,12 +6,13 @@ import Countdown from "on-react-countdown";
 // import data from './data.json'
 
 const HighestBid = ({ tokenData }) => {
-  const end_time = (new Date(tokenData.end_time).getTime() - Date.now()) / 1000;
+  const end_time = new Date(tokenData.end_time).getTime() / 1000;
+  const diff = end_time - Date.now() / 1000;
   return (
     <>
       <div className="col-12 col-lg-3 mt-s">
         <h4 className="mb-15">Latest Bids</h4>
-        <div className="highest-bid bid-item">
+        <div className="highest-bid latest-bid bid-item">
           {data &&
             data.map((item, i) => (
               <div
@@ -39,9 +40,9 @@ const HighestBid = ({ tokenData }) => {
             ))}
         </div>
         <div className="biding-end">
-          {end_time < 0 ? (
+          {diff < 0 ? (
             <div>
-              <h4 className="mb-15">Auction Ended :</h4>
+              <h4 className="mb-15">Auction Ended</h4>
             </div>
           ) : (
             <div>

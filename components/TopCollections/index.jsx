@@ -36,6 +36,7 @@ function TopCollectionsContainer() {
                 price={item.amount}
                 name={item.name}
                 token_id={item.token_id}
+                owner={item.owner}
                 is_own={false}
               />
             ))}

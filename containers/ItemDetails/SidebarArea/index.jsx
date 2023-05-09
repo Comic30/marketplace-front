@@ -1,11 +1,14 @@
 import Link from "next/link";
-import iconsf1 from "../../../assets/img/icons/f1.png";
 import authors8 from "../../../assets/img/authors/8.png";
-import authors2 from "../../../assets/img/authors/2.png";
-import artworkfire from "../../../assets/img/art-work/fire.png";
-import details from "../../../data/data-containers/data-ItemDetails-SidebarArea.json";
+import { Tezos, useTezosCollectStore } from "../../../api/store";
 
 const SidebarArea = ({ tokenData }) => {
+  const { activeAddress, collectNft } = useTezosCollectStore();
+
+  const purchaseNft = async (e) => {
+    e.preventDefault();
+    await collectNft(tokenData.token_id, tokenData.price);
+  };
   return (
     <>
       <div className="col-12 col-lg-4 mt-s">
@@ -38,14 +41,19 @@ const SidebarArea = ({ tokenData }) => {
                 <Link href="/Profile">
                   <h5 className="author-name">LarySmith-30</h5>
                 </Link>
-                <p className="author-earn mb-0">Item Owner</p>
+                <p className="author-earn mb-0">{tokenData.owner}</p>
               </div>
             </div>
-            <Link href="#test-popup">
-              <a className="open-popup-link more-btn width-100 mt-30">
+            {activeAddress != tokenData.owner ? (
+              <div
+                className="btn more-btn width-100 mt-30"
+                onClick={purchaseNft}
+              >
                 Purchase Now
-              </a>
-            </Link>
+              </div>
+            ) : (
+              <div />
+            )}
           </div>
         </div>
       </div>

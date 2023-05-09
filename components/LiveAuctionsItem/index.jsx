@@ -12,6 +12,7 @@ function LiveAuctionsItem({ data }) {
       <div className="pricing-item ">
         <div className="wraper">
           <img
+            style={{ height: "250px", width: "100%" }}
             src={`https://ipfs.io/ipfs/${data.image.split("ipfs://")[1]}`}
             alt=""
           />

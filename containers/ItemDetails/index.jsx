@@ -25,7 +25,7 @@ const ItemDetailsContainer = () => {
 
               <SidebarArea tokenData={tokenData[id]} />
 
-              <HighestBid tokenData={tokenData[id]} />
+              {/* <HighestBid tokenData={tokenData[id]} /> */}
             </div>
           ) : (
             <></>

@@ -49,7 +49,7 @@ const SidebarArea = ({ tokenData }) => {
                 />
               </p>
             </div>
-            <div className="btn login-btn ml-50" onClick={listNft}>
+            <div className="btn more-btn ml-50" onClick={listNft}>
               Fixed Price Sale
             </div>
           </div>

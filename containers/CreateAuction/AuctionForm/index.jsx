@@ -77,7 +77,7 @@ const AuctionForm = ({ tokenData }) => {
                 />
               </p>
             </div>
-            <div className="btn login-btn ml-50" onClick={listNft}>
+            <div className="btn more-btn ml-50" onClick={listNft}>
               Create Auction
             </div>
           </div>

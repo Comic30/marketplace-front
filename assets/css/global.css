@@ -771,6 +771,12 @@ ol {
     background: rgba(255,255,255,0.03);
     border-radius: 20px;
 }
+.latest-bid {
+  min-height: 280px;
+  @media only screen and (max-width: 992px) {
+    min-height: 0px;
+  }
+}
 .dd-bg{
     background: rgba(255,255,255,0.03);
     border-radius: 20px;
