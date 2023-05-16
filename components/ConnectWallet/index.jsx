@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { BeaconWallet } from "@taquito/beacon-wallet";
 
 import {
   NetworkType,
@@ -8,7 +7,9 @@ import {
   defaultEventCallbacks,
 } from "@airgap/beacon-sdk";
 
-import { Tezos, useTezosCollectStore } from "../../api/store";
+import { createMessagePayload, signIn } from "@siwt/sdk";
+
+import { Tezos, useTezosCollectStore, wallet } from "../../api/store";
 const ConnectButton = ({}) => {
   // const [wallet, setWallet] = useState();
   const [userAddress, setUserAddress] = useState(null);
@@ -17,25 +18,6 @@ const ConnectButton = ({}) => {
 
   const { activeAddress, setActiveAddress, initializeContracts } =
     useTezosCollectStore();
-  const options = {
-    name: "Template",
-    preferredNetwork: NetworkType.GHOSTNET,
-    colorMode: ColorMode.LIGHT,
-    disableDefaultEvents: false, // Disable all events / UI. This also disables the pairing alert.
-    eventHandlers: {
-      // To keep the pairing alert, we have to add the following default event handlers back
-      [BeaconEvent.PAIR_INIT]: {
-        handler: defaultEventCallbacks.PAIR_INIT,
-      },
-      [BeaconEvent.PAIR_SUCCESS]: {
-        handler: (data) => {
-          return data.publicKey;
-        },
-      },
-    },
-  };
-
-  const wallet = new BeaconWallet(options);
 
   const setup = async (userAddress) => {
     setUserAddress(userAddress);
@@ -69,6 +51,32 @@ const ConnectButton = ({}) => {
       });
       // gets user's address
       const userAddress = await wallet.getPKH();
+
+      // create the message to be signed
+      const messagePayload = createMessagePayload({
+        dappUrl: "siwt.stakenow.fi",
+        pkh: userAddress,
+      });
+
+      // request the signature
+      const signedPayload = await wallet.client.requestSignPayload(
+        messagePayload
+      );
+
+      const publicKey = await activeAccount.publicKey;
+
+      // sign in the user to our app
+      const { data } = await signIn("http://localhost:5000/api/auth")({
+        pk: publicKey,
+        pkh: userAddress,
+        message: messagePayload.payload,
+        signature: signedPayload.signature,
+      });
+
+      console.log(data);
+      const { accessToken, idToken } = data;
+      state.accessToken = accessToken;
+
       await setup(userAddress);
       await initializeContracts();
       setBeaconConnection(true);

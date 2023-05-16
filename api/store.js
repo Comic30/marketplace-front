@@ -4,11 +4,18 @@ import { MichelsonMap, TezosToolkit } from "@taquito/taquito";
 import { char2Bytes } from "@taquito/utils";
 import { NFTStorage } from "nft.storage";
 import axios from "axios";
-export const Tezos = new TezosToolkit("https://ghostnet.smartpy.io/");
+import {
+  NetworkType,
+  ColorMode,
+  BeaconEvent,
+  defaultEventCallbacks,
+} from "@airgap/beacon-sdk";
+import { BeaconWallet } from "@taquito/beacon-wallet";
 
 export const nftStorage = new NFTStorage({
   token: process.env.TOKEN_STORAGE_API_KEY,
 });
+export const Tezos = new TezosToolkit("https://ghostnet.smartpy.io/");
 
 export const hex2buf = (hex) => {
   return new Uint8Array(hex.match(/[\da-f]{2}/gi).map((h) => parseInt(h, 16)));
@@ -17,6 +24,26 @@ export const hex2buf = (hex) => {
 export function bytes2Char(hex) {
   return Buffer.from(hex2buf(hex)).toString("utf8");
 }
+
+const options = {
+  name: "Template",
+  preferredNetwork: NetworkType.GHOSTNET,
+  colorMode: ColorMode.LIGHT,
+  disableDefaultEvents: false, // Disable all events / UI. This also disables the pairing alert.
+  eventHandlers: {
+    // To keep the pairing alert, we have to add the following default event handlers back
+    [BeaconEvent.PAIR_INIT]: {
+      handler: defaultEventCallbacks.PAIR_INIT,
+    },
+    [BeaconEvent.PAIR_SUCCESS]: {
+      handler: (data) => {
+        return data.publicKey;
+      },
+    },
+  },
+};
+
+export const wallet = new BeaconWallet(options);
 
 export const useTezosCollectStore = create((set, get) => ({
   activeAddress: "",
