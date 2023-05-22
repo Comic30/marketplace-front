@@ -2,13 +2,17 @@ import { useState } from "react";
 import { useTezosCollectStore } from "api/store";
 
 const Detailed = ({ tokenData }) => {
-  const { activeAddress, placeBid } = useTezosCollectStore();
+  const { activeAddress, placeBid, claimPrize } = useTezosCollectStore();
   const [bidPrice, setBidPrice] = useState(0);
   const end_time = new Date(tokenData.end_time).getTime() / 1000;
   const diff = end_time - Date.now() / 1000;
 
   const bidNft = async (e) => {
     await placeBid(tokenData.token_id, bidPrice);
+  };
+
+  const claim = async (e) => {
+    await claimPrize(tokenData.token_id);
   };
   console.log(tokenData.highest_bidder);
   return (
@@ -27,7 +31,7 @@ const Detailed = ({ tokenData }) => {
               <div
                 className="btn more-btn ml-50"
                 style={{ marginTop: "30px" }}
-                onClick={bidNft}
+                onClick={claim}
               >
                 Refund
               </div>
@@ -35,7 +39,7 @@ const Detailed = ({ tokenData }) => {
               <div
                 className="btn more-btn ml-50"
                 style={{ marginTop: "30px" }}
-                onClick={bidNft}
+                onClick={claim}
               >
                 Claim
               </div>

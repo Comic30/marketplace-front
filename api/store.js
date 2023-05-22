@@ -297,6 +297,23 @@ export const useTezosCollectStore = create((set, get) => ({
     return true;
   },
 
+  claimPrize: async (token_id) => {
+    if (get().activeAddress === "") {
+      alert("Need to connect wallet first!");
+      return false;
+    }
+    if (get().contractReady === false) {
+      alert("Contract is not ready");
+      return false;
+    }
+
+    const _marketPlaceContract = get().marketPlaceContract;
+
+    const op = await _marketPlaceContract?.methods.claim_prize(token_id).send();
+    await op.confirmation();
+    return true;
+  },
+
   fetchRecentTransactions: async () => {
     const response = await axios.get(
       `https://api.ghostnet.tzkt.io/v1/accounts/${MARKETPLACE_CONTRACT_ADDRESS}/operations`
