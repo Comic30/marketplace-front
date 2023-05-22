@@ -21,11 +21,7 @@ function LiveAuctionsContainer() {
   return (
     <section className="features  section-padding-50 ">
       <div className="container">
-        <InfoComponent
-          titleSm="Live auctions"
-          titleLg="Live auctions"
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis accumsan nisi Ut ut felis congue nisl hendrerit commodo."
-        />
+        <InfoComponent titleSm="Live auctions" />
         <div className="row align-items-center">
           {auctionData &&
             auctionData.map((item, i) => (

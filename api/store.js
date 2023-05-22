@@ -53,6 +53,13 @@ export const useTezosCollectStore = create((set, get) => ({
       activeAddress: _activeAddress,
     }));
   },
+  accessToken: "",
+  setAccessToken: (_accessToken) => {
+    set((state) => ({
+      ...state,
+      accessToken: _accessToken,
+    }));
+  },
   // Interacting with Tezos
   contractReady: false,
   marketPlaceContract: null,
@@ -60,6 +67,7 @@ export const useTezosCollectStore = create((set, get) => ({
   lastTokenId: 0,
   tokenData: null,
   auctionData: null,
+  recentActivityData: null,
   initializeContracts: async () => {
     const [_marketPlaceContract, _nftContract] = await Promise.all([
       Tezos.wallet.at(MARKETPLACE_CONTRACT_ADDRESS),
@@ -95,7 +103,10 @@ export const useTezosCollectStore = create((set, get) => ({
       alert("Need to connect wallet first!");
       return false;
     }
-    if (get().contractReady === false) return false;
+    if (get().contractReady === false) {
+      alert("Contract is not ready");
+      return false;
+    }
 
     const _marketPlaceContract = get().marketPlaceContract;
 
@@ -114,7 +125,11 @@ export const useTezosCollectStore = create((set, get) => ({
       alert("Need to connect wallet first!");
       return false;
     }
-    if (get().contractReady === false) return false;
+    if (get().contractReady === false) {
+      alert("Contract is not ready");
+      return false;
+    }
+
     const _marketPlaceContract = get().marketPlaceContract;
     const _nftContract = get().nftContract;
 
@@ -142,7 +157,11 @@ export const useTezosCollectStore = create((set, get) => ({
       alert("Need to connect wallet first!");
       return false;
     }
-    if (get().contractReady === false) return false;
+    if (get().contractReady === false) {
+      alert("Contract is not ready");
+      return false;
+    }
+
     const _marketPlaceContract = get().marketPlaceContract;
     const _nftContract = get().nftContract;
 
@@ -179,8 +198,6 @@ export const useTezosCollectStore = create((set, get) => ({
     const d1 = response.data;
     const d2 = response1.data;
 
-    console.log("d1", d1);
-    console.log("d2", d2);
     let tokenData = [];
     for (let i = 0; i < d1.length; i++) {
       const s = bytes2Char(d2[i].value.token_info[""]).split("//").at(-1);
@@ -243,23 +260,15 @@ export const useTezosCollectStore = create((set, get) => ({
     }));
   },
 
-  fetchBidData: async () => {
-    const response = await axios.get(
-      `https://api.ghostnet.tzkt.io/v1/contracts/${MARKETPLACE_CONTRACT_ADDRESS}/bigmaps/bidder_data/keys`
-    );
-    const response1 = await axios.get(
-      `https://api.ghostnet.tzkt.io/v1/contracts/${NFT_CONTRACT_ADDRESS}/bigmaps/token_metadata/keys`
-    );
-    const d1 = response.data;
-    const d2 = response1.data;
-  },
-
   collectNft: async (token_id, price) => {
     if (get().activeAddress === "") {
       alert("Need to connect wallet first!");
       return false;
     }
-    if (get().contractReady === false) return false;
+    if (get().contractReady === false) {
+      alert("Contract is not ready");
+      return false;
+    }
     const _marketPlaceContract = get().marketPlaceContract;
 
     const op = await _marketPlaceContract?.methods
@@ -268,12 +277,17 @@ export const useTezosCollectStore = create((set, get) => ({
     await op.confirmation();
     return true;
   },
+
   placeBid: async (token_id, price) => {
     if (get().activeAddress === "") {
       alert("Need to connect wallet first!");
       return false;
     }
-    if (get().contractReady === false) return false;
+    if (get().contractReady === false) {
+      alert("Contract is not ready");
+      return false;
+    }
+
     const _marketPlaceContract = get().marketPlaceContract;
 
     const op = await _marketPlaceContract?.methods
@@ -282,49 +296,26 @@ export const useTezosCollectStore = create((set, get) => ({
     await op.confirmation();
     return true;
   },
-  cancelForSale: async (
-    tokenId
-    // durationId: number
-  ) => {
-    if (get().activeAddress === "") {
-      alert("Need to connect wallet first!");
-      return false;
-    }
-    if (get().contractReady === false) return false;
 
-    const _nftContract = get().nftContract;
-    const _txOp = await _nftContract?.methods.cancel_for_sale(tokenId).send();
-    await _txOp.confirmation(2);
-    return true;
+  fetchRecentTransactions: async () => {
+    const response = await axios.get(
+      `https://api.ghostnet.tzkt.io/v1/accounts/${MARKETPLACE_CONTRACT_ADDRESS}/operations`
+    );
+
+    const d1 = response.data;
+    const d2 = d1.filter((element) => element.parameter != undefined);
+
+    set((state) => ({
+      ...state,
+      recentActivityData: d2.slice(0, 10),
+    }));
   },
 
-  listForSale: async (tokenId, includingOperator, defaultAmount) => {
-    if (get().activeAddress === "") {
-      alert("Need to connect wallet first!");
-      return false;
-    }
-    if (get().contractReady === false) return false;
-
-    const _nftContract = get().nftContract;
-    const _marketPlaceContract = get().marketPlaceContract;
-    await Tezos.wallet
-      .batch()
-      .withContractCall(
-        _marketPlaceContract.methods.update_operators([
-          {
-            add_operator: {
-              owner: get().activeAddress,
-              operator: MARKETPLACE_CONTRACT_ADDRESS,
-              token_id: tokenId,
-            },
-          },
-        ])
-      )
-      .withContractCall(
-        _nftContract?.methods.list_for_sale(defaultAmount * 10 ** 6, tokenId)
-      )
-      .send();
-
-    return true;
+  makeShort: (userAddress) => {
+    return (
+      userAddress.substring(0, 4) +
+      "....." +
+      userAddress.substring(userAddress.length - 4)
+    );
   },
 }));

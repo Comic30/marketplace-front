@@ -40,7 +40,7 @@ const ContactForm = () => {
       description: description,
       artist: "Luan",
       size: "3000x300",
-      collection: "My Art",
+      collection: "My Collection",
       decimals: 0,
       symbol: "TBY",
       image: imgFile,

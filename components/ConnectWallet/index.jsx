@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 
-import {
-  NetworkType,
-  ColorMode,
-  BeaconEvent,
-  defaultEventCallbacks,
-} from "@airgap/beacon-sdk";
+import { NetworkType } from "@airgap/beacon-sdk";
 
 import { createMessagePayload, signIn } from "@siwt/sdk";
 
 import { Tezos, useTezosCollectStore, wallet } from "../../api/store";
+
+import jwt_decode from "jwt-decode";
+
 const ConnectButton = ({}) => {
-  // const [wallet, setWallet] = useState();
   const [userAddress, setUserAddress] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
   const [beaconConnection, setBeaconConnection] = useState(null);
 
-  const { activeAddress, setActiveAddress, initializeContracts } =
-    useTezosCollectStore();
+  const {
+    activeAddress,
+    setActiveAddress,
+    setAccessToken,
+    makeShort,
+    initializeContracts,
+  } = useTezosCollectStore();
 
   const setup = async (userAddress) => {
     setUserAddress(userAddress);
@@ -28,14 +30,8 @@ const ConnectButton = ({}) => {
     Tezos.setWalletProvider(wallet);
   };
 
-  const makeShort = (userAddress) => {
-    return (
-      userAddress.substring(0, 4) +
-      "....." +
-      userAddress.substring(userAddress.length - 4)
-    );
-  };
   const connectWallet = async () => {
+    const backed_defined = false;
     try {
       const activeAccount = await wallet.client.getActiveAccount();
       if (activeAccount) {
@@ -52,34 +48,46 @@ const ConnectButton = ({}) => {
       // gets user's address
       const userAddress = await wallet.getPKH();
 
-      // create the message to be signed
-      const messagePayload = createMessagePayload({
-        dappUrl: "siwt.stakenow.fi",
-        pkh: userAddress,
-      });
+      if (backed_defined) {
+        // create the message to be signed
+        const messagePayload = createMessagePayload({
+          dappUrl: "siwt.stakenow.fi",
+          pkh: userAddress,
+        });
 
-      // request the signature
-      const signedPayload = await wallet.client.requestSignPayload(
-        messagePayload
-      );
+        // request the signature
+        const signedPayload = await wallet.client.requestSignPayload(
+          messagePayload
+        );
 
-      const publicKey = await activeAccount.publicKey;
+        const publicKey = await activeAccount.publicKey;
 
-      // sign in the user to our app
-      const { data } = await signIn("http://localhost:5000/api/auth")({
-        pk: publicKey,
-        pkh: userAddress,
-        message: messagePayload.payload,
-        signature: signedPayload.signature,
-      });
+        // sign in the user to our app
+        const { data } = await signIn("http://localhost:5000/api/auth")({
+          pk: publicKey,
+          pkh: userAddress,
+          message: messagePayload.payload,
+          signature: signedPayload.signature,
+        });
 
-      console.log(data);
-      const { accessToken, idToken } = data;
-      state.accessToken = accessToken;
+        const { accessToken, idToken } = data;
+        if (accessToken) {
+          setAccessToken(accessToken);
+        }
 
-      await setup(userAddress);
-      await initializeContracts();
-      setBeaconConnection(true);
+        if (idToken) {
+          const userIdInfo = jwt_decode(idToken);
+          console.log(userIdInfo.pkh);
+
+          await setup(userIdInfo.pkh);
+          await initializeContracts();
+          setBeaconConnection(true);
+        }
+      } else {
+        await setup(userAddress);
+        await initializeContracts();
+        setBeaconConnection(true);
+      }
     } catch (error) {
       console.log(error);
     }

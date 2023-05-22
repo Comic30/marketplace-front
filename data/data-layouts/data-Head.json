@@ -27,15 +27,7 @@
       },
       {
         "path": "/Profile",
-        "title": "Author Profile"
-      },
-      {
-        "path": "/Logins",
-        "title": "Login"
-      },
-      {
-        "path": "/SignUps",
-        "title": "Sign Up"
+        "title": "Profile"
       }
     ]
   },

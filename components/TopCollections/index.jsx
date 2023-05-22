@@ -6,7 +6,7 @@ import { useTezosCollectStore } from "api/store";
 import { useEffect, useState } from "react";
 
 function TopCollectionsContainer() {
-  const { tokenData, fetchNft } = useTezosCollectStore();
+  const { tokenData, fetchNft, makeShort } = useTezosCollectStore();
   const [filteredData, setFilteredData] = useState();
 
   useEffect(() => {
@@ -22,11 +22,7 @@ function TopCollectionsContainer() {
   return (
     <section className="section-padding-100 clearfix">
       <div className="container">
-        <InfoComponent
-          titleSm="Our Top Collections"
-          titleLg="Popular Collections"
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis accumsan nisi Ut ut felis congue nisl hendrerit commodo."
-        />
+        <InfoComponent titleSm="Our Top Collections" />
         <div className="row">
           {filteredData &&
             filteredData.map((item, i) => (
@@ -36,7 +32,7 @@ function TopCollectionsContainer() {
                 price={item.amount}
                 name={item.name}
                 token_id={item.token_id}
-                owner={item.owner}
+                owner={makeShort(item.owner)}
                 is_own={false}
               />
             ))}

@@ -4,8 +4,11 @@ import authors8 from "../../../assets/img/authors/8.png";
 import authors2 from "../../../assets/img/authors/2.png";
 import artworkfire from "../../../assets/img/art-work/fire.png";
 import details from "../../../data/data-containers/data-ItemDetails-SidebarArea.json";
+import { useTezosCollectStore } from "api/store";
 
 const SidebarArea = ({ tokenData }) => {
+  const { makeShort } = useTezosCollectStore();
+
   return (
     <>
       <div className="col-12 col-lg-4 mt-s">
@@ -13,7 +16,7 @@ const SidebarArea = ({ tokenData }) => {
           <div className="donnot-miss-widget">
             <div className="mb-15 gray-text">
               <span className="w-text mr-15">
-                Current Price: {tokenData.start_price} TEZ{" "}
+                Current Price: {tokenData.start_price} MUTEZ{" "}
               </span>
             </div>
             <div className="details-list">
@@ -36,7 +39,7 @@ const SidebarArea = ({ tokenData }) => {
               </div>
               <div className="author-info">
                 <Link href="/Profile">
-                  <h5 className="author-name">LarySmith-30</h5>
+                  <h5 className="author-name">{makeShort(tokenData.owner)}</h5>
                 </Link>
                 <p className="author-earn mb-0">Item Owner</p>
               </div>
@@ -46,7 +49,7 @@ const SidebarArea = ({ tokenData }) => {
               <div className="admire">
                 <div className="adm w-text">
                   <img src={authors2.src} width="30" alt="" className="mr-5p" />
-                  Wadee-Nel
+                  {makeShort(tokenData.highest_bidder)}
                 </div>
                 <div className="adm">
                   <img
@@ -56,7 +59,7 @@ const SidebarArea = ({ tokenData }) => {
                     className="mr-5p"
                   />
                   <span className="bold mr-5p">
-                    {tokenData.current_price} TEZ
+                    {tokenData.current_price} MUTEZ
                   </span>
                 </div>
               </div>

@@ -9,7 +9,8 @@ import { useTezosCollectStore } from "api/store";
 // import data from './data.json'
 
 const AuctionForm = ({ tokenData }) => {
-  const { listWithAuction, listWithFixedPrice } = useTezosCollectStore();
+  const { listWithAuction, listWithFixedPrice, makeShort } =
+    useTezosCollectStore();
   const [expiryDate, setExpiryDate] = useState();
   const [startPrice, setStartPrice] = useState(0);
   const onChange = (e) => {
@@ -29,14 +30,6 @@ const AuctionForm = ({ tokenData }) => {
     //   price: startPrice,
     //   token_id: tokenData.token_id,
     // });
-  };
-
-  const makeShort = (userAddress) => {
-    return (
-      userAddress.substring(0, 4) +
-      "....." +
-      userAddress.substring(userAddress.length - 4)
-    );
   };
 
   return (

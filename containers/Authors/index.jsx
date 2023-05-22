@@ -1,19 +1,17 @@
-import Breadcumb from '../../components/Breadcumb'
-import TopSellers from '../../components/TopSellers'
-import CardSection from './CardSection'
+import Breadcumb from "../../components/Breadcumb";
+import TopSellers from "../../components/TopSellers";
+import CardSection from "./CardSection";
 
 const AuthorsContainer = () => {
-
   return (
     <>
-		<Breadcumb  
-		          namePage='Authors'
-		          title='Authors'
-		/>
-		<TopSellers />
-		<CardSection />
+      <div className="container">
+        <div className="row">
+          <TopSellers />
+        </div>
+      </div>
     </>
   );
-}
+};
 
 export default AuthorsContainer;

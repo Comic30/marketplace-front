@@ -1,7 +1,6 @@
 import DetailedImg from "../../../assets/img/art-work/detailed.jpg";
 
 const Detailed = ({ img }) => {
-  console.log(img);
   return (
     <>
       <div className="col-12 col-lg-5">

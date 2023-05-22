@@ -6,7 +6,7 @@ import {
 } from "../../utils/allImgs";
 
 function LiveAuctionsItem({ data }) {
-  console.log(data);
+  console.log("ddddddddata", data);
   return (
     <div className="col-lg-3 col-sm-6 col-xs-12">
       <div className="pricing-item ">
@@ -16,7 +16,7 @@ function LiveAuctionsItem({ data }) {
             src={`https://ipfs.io/ipfs/${data.image.split("ipfs://")[1]}`}
             alt=""
           />
-          <h4>{data.collection}</h4>
+          <h4>{data.name}</h4>
           {/* <div className="owner-info">
             <img src={LiveAuctionsAuthors2.src} width="40" alt="" />
             <Link href="/profile">
@@ -24,7 +24,7 @@ function LiveAuctionsItem({ data }) {
             </Link>
           </div> */}
           <span>
-            <span className="g-text">Price</span> {data.current_price} TEZ{" "}
+            <span className="g-text">Price</span> {data.current_price} MUTEZ{" "}
           </span>
           <div className="count-down titled circled text-center">
             <Countdown end={0} />

@@ -6,7 +6,6 @@ const DiscoverContainer = () => {
   return (
     <>
       <TopCollections />
-      <ListedItems />
     </>
   );
 };

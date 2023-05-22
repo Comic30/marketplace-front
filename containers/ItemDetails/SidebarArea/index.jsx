@@ -3,7 +3,7 @@ import authors8 from "../../../assets/img/authors/8.png";
 import { Tezos, useTezosCollectStore } from "../../../api/store";
 
 const SidebarArea = ({ tokenData }) => {
-  const { activeAddress, collectNft } = useTezosCollectStore();
+  const { activeAddress, collectNft, makeShort } = useTezosCollectStore();
 
   const purchaseNft = async (e) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ const SidebarArea = ({ tokenData }) => {
           <div className="donnot-miss-widget">
             <div className="mb-15 gray-text">
               <span className="w-text mr-15">
-                Current Price: {tokenData.price} TEZ{" "}
+                Current Price: {tokenData.price} MUTEZ{" "}
               </span>
             </div>
             <div className="details-list">
@@ -39,9 +39,9 @@ const SidebarArea = ({ tokenData }) => {
               </div>
               <div className="author-info">
                 <Link href="/Profile">
-                  <h5 className="author-name">LarySmith-30</h5>
+                  <h5 className="author-name">Owner</h5>
                 </Link>
-                <p className="author-earn mb-0">{tokenData.owner}</p>
+                <p className="author-earn mb-0">{makeShort(tokenData.owner)}</p>
               </div>
             </div>
             {activeAddress != tokenData.owner ? (
