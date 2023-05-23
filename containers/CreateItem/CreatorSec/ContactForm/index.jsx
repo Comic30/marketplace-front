@@ -63,8 +63,8 @@ const ContactForm = () => {
       }
     } catch (e) {
       console.error(e);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
