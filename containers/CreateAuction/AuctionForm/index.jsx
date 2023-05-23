@@ -5,6 +5,7 @@ import Countdown from "on-react-countdown";
 import { useState } from "react";
 import authors8 from "../../../assets/img/authors/8.png";
 import { useTezosCollectStore } from "api/store";
+import { useRouter } from "next/router";
 
 // import data from './data.json'
 
@@ -13,6 +14,8 @@ const AuctionForm = ({ tokenData }) => {
     useTezosCollectStore();
   const [expiryDate, setExpiryDate] = useState();
   const [startPrice, setStartPrice] = useState(0);
+  const router = useRouter();
+
   const onChange = (e) => {
     e.preventDefault();
     setExpiryDate(new Date(e.target.valueAsNumber).toISOString());
@@ -20,21 +23,21 @@ const AuctionForm = ({ tokenData }) => {
 
   const listNft = async (e) => {
     e.preventDefault();
-
-    await listWithAuction({
-      start_price: startPrice,
-      token_id: tokenData.token_id,
-      end_time: expiryDate,
-    });
-    // await listWithFixedPrice({
-    //   price: startPrice,
-    //   token_id: tokenData.token_id,
-    // });
+    try {
+      await listWithAuction({
+        start_price: startPrice,
+        token_id: tokenData.token_id,
+        end_time: expiryDate,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    router.push("/LiveAuctions");
   };
 
   return (
     <>
-      <div className="col-12 col-lg-3 mt-s">
+      <div className="col-12 col-lg-4 mt-s">
         <div className="sidebar-area">
           <div className="donnot-miss-widget">
             <div className="author-item mb-30">

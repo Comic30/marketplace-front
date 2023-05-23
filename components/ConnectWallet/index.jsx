@@ -77,7 +77,6 @@ const ConnectButton = ({}) => {
 
         if (idToken) {
           const userIdInfo = jwt_decode(idToken);
-          console.log(userIdInfo.pkh);
 
           await setup(userIdInfo.pkh);
           await initializeContracts();
@@ -88,8 +87,8 @@ const ConnectButton = ({}) => {
         await initializeContracts();
         setBeaconConnection(true);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.error(e);
     }
   };
 

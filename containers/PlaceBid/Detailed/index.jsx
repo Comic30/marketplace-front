@@ -1,20 +1,26 @@
 import { useState } from "react";
 import { useTezosCollectStore } from "api/store";
+import { useRouter } from "next/router";
 
 const Detailed = ({ tokenData }) => {
   const { activeAddress, placeBid, claimPrize } = useTezosCollectStore();
   const [bidPrice, setBidPrice] = useState(0);
   const end_time = new Date(tokenData.end_time).getTime() / 1000;
   const diff = end_time - Date.now() / 1000;
+  const router = useRouter();
 
   const bidNft = async (e) => {
-    await placeBid(tokenData.token_id, bidPrice);
+    try {
+      await placeBid(tokenData.token_id, bidPrice);
+      router.push("/LiveAuctions");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const claim = async (e) => {
     await claimPrize(tokenData.token_id);
   };
-  console.log(tokenData.highest_bidder);
   return (
     <>
       <div className="col-12 col-lg-4">

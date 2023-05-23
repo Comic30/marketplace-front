@@ -666,6 +666,13 @@ ol {
     color: #fff;
 }
 
+.loader {
+  color: #36d7b7;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 80%;
+}
 
 .b-text {
     color: #272e3a !important;
@@ -764,7 +771,8 @@ ol {
 
 .creator-sec {
     overflow: hidden;
-    padding: 30px 20px 10px
+    padding: 30px 20px 10px;
+	height: 100%;
 }
 .highest-bid{
     padding: 15px;

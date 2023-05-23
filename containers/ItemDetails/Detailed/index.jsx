@@ -3,7 +3,7 @@ import DetailedImg from "../../../assets/img/art-work/detailed.jpg";
 const Detailed = ({ img }) => {
   return (
     <>
-      <div className="col-12 col-lg-5">
+      <div className="col-12 col-lg-4">
         <div className="detailed-img">
           <img
             src={`https://ipfs.io/ipfs/${img.split("ipfs://")[1]}`}

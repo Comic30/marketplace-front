@@ -7,7 +7,7 @@ import { useFilePicker } from "use-file-picker";
 import { File } from "nft.storage";
 import { nftStorage, Tezos, useTezosCollectStore } from "api/store";
 import { useRouter } from "next/router";
-import Spinner from "./../../../../components/Spinner";
+import { PropagateLoader } from "react-spinners";
 // import data from './data.json'
 
 const ContactForm = () => {
@@ -20,44 +20,50 @@ const ContactForm = () => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState();
-  const [amount, setAmount] = useState();
-  const [royalties, setRoyalties] = useState();
+  const [price, setPrice] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [royalties, setRoyalties] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const { nftMint } = useTezosCollectStore();
   const onSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(filesContent);
-    const imgFile = new File([filesContent[0].content], filesContent[0].name, {
-      type: "image/" + filesContent[0].name.split(".")[1],
-    });
+    try {
+      const imgFile = new File(
+        [filesContent[0].content],
+        filesContent[0].name,
+        {
+          type: "image/" + filesContent[0].name.split(".")[1],
+        }
+      );
 
-    // upload img to ipfs
-    const metadata = await nftStorage.store({
-      name: name,
-      description: description,
-      artist: "Luan",
-      size: "3000x300",
-      collection: "My Collection",
-      decimals: 0,
-      symbol: "TBY",
-      image: imgFile,
-    });
+      // upload img to ipfs
+      const metadata = await nftStorage.store({
+        name: name,
+        description: description,
+        artist: "Comic30",
+        size: "3000x300",
+        collection: "Test Collection",
+        decimals: 0,
+        symbol: "TBY",
+        image: imgFile,
+      });
 
-    console.log(metadata.url);
+      // mint
+      await nftMint({ amount: price, metadata: metadata.url });
 
-    // mint
-    await nftMint({ amount: price, metadata: metadata.url });
-
-    setName("");
-    setDescription("");
-    setPrice(0);
-    setAmount(0);
-    setRoyalties(0);
-    setIsLoading(false);
-    router.push("/MyItems");
+      setName("");
+      setDescription("");
+      setPrice(0);
+      setAmount(0);
+      setRoyalties(0);
+      setIsLoading(false);
+      router.push("/MyItems");
+    } catch (e) {
+      console.error(e);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -213,7 +219,9 @@ const ContactForm = () => {
           </form>
         </div>
       ) : (
-        <Spinner />
+        <div className="loader">
+          <PropagateLoader color="#36d7b7" />
+        </div>
       )}
     </>
   );

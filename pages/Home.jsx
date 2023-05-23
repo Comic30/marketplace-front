@@ -1,23 +1,23 @@
 import dynamic from "next/dynamic";
-import HeroContainer from '../components/Hero'
-import TopSellers from '../components/TopSellers'
-import TopCollections from '../components/TopCollections'
-import ListedItems from '../components/ListedItems'
-import LiveAuctions from '../components/LiveAuctions'
+import HeroContainer from "../components/Hero";
+import TopSellers from "../components/TopSellers";
+import TopCollections from "../components/TopCollections";
+import ListedItems from "../components/ListedItems";
+import LiveAuctions from "../components/LiveAuctions";
 // import Header from '../layouts/Header';
-import Footer from '../layouts/Footer';
+import Footer from "../layouts/Footer";
 
 const Header = dynamic(
   () => {
-    return import('../layouts/Header');
+    return import("../layouts/Header");
   },
   { ssr: false }
 );
 
 const Home = () => {
   return (
-  	<>
-      <Header Title='NFT Market Place - Comic' />
+    <>
+      <Header Title="NFT Market Place - Comic" />
       <HeroContainer
         ClassDiv="hero-section moving section-padding"
         addMoving={true}
@@ -30,12 +30,11 @@ const Home = () => {
       />
       <TopCollections />
       <TopSellers />
-      <ListedItems />
+      {/* <ListedItems /> */}
       <LiveAuctions />
       <Footer />
     </>
   );
-}
+};
 
 export default Home;
-

@@ -10,7 +10,6 @@ const LatestBid = ({ tokenData }) => {
   const end_time = new Date(tokenData.end_time).getTime() / 1000;
   const diff = end_time - Date.now() / 1000;
   const { makeShort } = useTezosCollectStore();
-  console.log("tokenData", tokenData);
 
   return (
     <>

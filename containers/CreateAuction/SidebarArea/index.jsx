@@ -5,17 +5,24 @@ import artworkfire from "../../../assets/img/art-work/fire.png";
 import details from "../../../data/data-containers/data-ItemDetails-SidebarArea.json";
 import { useState } from "react";
 import { useTezosCollectStore } from "api/store";
+import { useRouter } from "next/router";
 
 const SidebarArea = ({ tokenData }) => {
   const { listWithFixedPrice } = useTezosCollectStore();
   const [fixedPrice, setFixedPrice] = useState(0);
+  const router = useRouter();
 
   const listNft = async (e) => {
     e.preventDefault();
-    await listWithFixedPrice({
-      price: fixedPrice,
-      token_id: tokenData.token_id,
-    });
+    try {
+      await listWithFixedPrice({
+        price: fixedPrice,
+        token_id: tokenData.token_id,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    router.push("/Discover");
   };
   return (
     <>

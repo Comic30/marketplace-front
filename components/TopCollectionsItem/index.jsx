@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { useTezosCollectStore } from "api/store";
 
 function TopCollectionsItem({ img, name, price, token_id, owner, is_own }) {
+  const { makeShort } = useTezosCollectStore();
+
   return (
     <div className="col-12 col-md-6 col-lg-3">
       <Link
@@ -25,7 +28,7 @@ function TopCollectionsItem({ img, name, price, token_id, owner, is_own }) {
             <div className="collection_info">
               <h6>{name}</h6>
               <p>
-                Owner : <span className="w-text">{owner}</span>
+                Owner : <span className="w-text">{makeShort(owner)}</span>
               </p>
             </div>
           </div>

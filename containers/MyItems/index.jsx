@@ -16,7 +16,10 @@ function MyItemsContainer() {
     if (tokenData) {
       setFilteredData(
         tokenData.filter(
-          (item) => item.owner == activeAddress && item.collectable == false
+          (item) =>
+            item.owner == activeAddress &&
+            item.collectable == false &&
+            item.auctionStarted == false
         )
       );
     }
@@ -24,11 +27,7 @@ function MyItemsContainer() {
   return (
     <section className="section-padding-100 clearfix">
       <div className="container">
-        <InfoComponent
-          titleSm="Our Top Collections"
-          titleLg="Popular Collections"
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis accumsan nisi Ut ut felis congue nisl hendrerit commodo."
-        />
+        <InfoComponent titleSm="Our Top Collections" />
         <div className="row">
           {filteredData &&
             filteredData.map((item, i) => (

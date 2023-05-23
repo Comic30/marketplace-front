@@ -75,10 +75,6 @@ export const useTezosCollectStore = create((set, get) => ({
     ]);
 
     const _nftContractStorage = await _nftContract.storage();
-    console.log("_nftContractStorage", _nftContractStorage);
-
-    console.log("_marketPlaceContract", _marketPlaceContract);
-
     set((state) => ({
       ...state,
       contractReady: true,
@@ -195,8 +191,13 @@ export const useTezosCollectStore = create((set, get) => ({
     const response1 = await axios.get(
       `https://api.ghostnet.tzkt.io/v1/contracts/${NFT_CONTRACT_ADDRESS}/bigmaps/token_metadata/keys`
     );
+    const response2 = await axios.get(
+      `https://api.ghostnet.tzkt.io/v1/contracts/${MARKETPLACE_CONTRACT_ADDRESS}/bigmaps/auction_data/keys`
+    );
+
     const d1 = response.data;
     const d2 = response1.data;
+    const d3 = response2.data;
 
     let tokenData = [];
     for (let i = 0; i < d1.length; i++) {
@@ -206,9 +207,19 @@ export const useTezosCollectStore = create((set, get) => ({
 
       const l1 = d1[i].value;
       const l2 = res.data;
+
+      let auctionStarted = false;
+      for (let j = 0; j < d3.length; j++) {
+        if (d3[j].value.token.token_id == d2[i].value.token_id) {
+          auctionStarted = true;
+          break;
+        }
+      }
+
       tokenData[i] = {
         ...l1,
         ...l2,
+        auctionStarted,
         token_id: d2[i].value.token_id,
       };
     }

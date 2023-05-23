@@ -1,13 +1,20 @@
 import Link from "next/link";
 import authors8 from "../../../assets/img/authors/8.png";
-import { Tezos, useTezosCollectStore } from "../../../api/store";
+import { useTezosCollectStore } from "../../../api/store";
+import { useRouter } from "next/router";
 
 const SidebarArea = ({ tokenData }) => {
   const { activeAddress, collectNft, makeShort } = useTezosCollectStore();
+  const router = useRouter();
 
   const purchaseNft = async (e) => {
     e.preventDefault();
-    await collectNft(tokenData.token_id, tokenData.price);
+    try {
+      await collectNft(tokenData.token_id, tokenData.price);
+      router.push("/MyItems");
+    } catch (e) {
+      console.error(e);
+    }
   };
   return (
     <>

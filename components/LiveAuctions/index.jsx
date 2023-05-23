@@ -13,13 +13,12 @@ function LiveAuctionsContainer() {
 
   useEffect(() => {
     if (auctionData) {
-      console.log("auctionData", auctionData);
       // setFilteredData(tokenData.filter((item) => item.collectable == true));
     }
   }, [auctionData]);
 
   return (
-    <section className="features  section-padding-50 ">
+    <section className="features  section-padding-100 ">
       <div className="container">
         <InfoComponent titleSm="Live auctions" />
         <div className="row align-items-center">

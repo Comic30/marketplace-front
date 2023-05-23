@@ -149,7 +149,6 @@ import HomeDemo10 from "../../assets/img/demos/demo-10.png";
 import HomeDemo11 from "../../assets/img/demos/demo-11.png";
 import HomeDemo12 from "../../assets/img/demos/demo-12.png";
 
-import SpinnerImg from "../../assets/img/spinner.gif";
 export {
   HomeDemo1,
   HomeDemo2,
@@ -281,5 +280,4 @@ export {
   DetailsBestImg1,
   DetailsBestImg2,
   DetailsBestImg3,
-  SpinnerImg,
 };
