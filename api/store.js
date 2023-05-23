@@ -114,6 +114,7 @@ export const useTezosCollectStore = create((set, get) => ({
     const op = await _marketPlaceContract?.methods.mint(amount, bytes).send();
 
     await op?.confirmation(2);
+    return true;
   },
 
   listWithFixedPrice: async ({ price, token_id }) => {
@@ -146,6 +147,7 @@ export const useTezosCollectStore = create((set, get) => ({
         _marketPlaceContract?.methods.list_with_fixed_price(price, token_id)
       )
       .send();
+    return true;
   },
 
   listWithAuction: async ({ start_price, end_time, token_id }) => {
@@ -182,6 +184,7 @@ export const useTezosCollectStore = create((set, get) => ({
         )
       )
       .send();
+    return true;
   },
 
   fetchNft: async () => {

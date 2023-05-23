@@ -10,8 +10,10 @@ const SidebarArea = ({ tokenData }) => {
   const purchaseNft = async (e) => {
     e.preventDefault();
     try {
-      await collectNft(tokenData.token_id, tokenData.price);
-      router.push("/MyItems");
+      const ret = await collectNft(tokenData.token_id, tokenData.price);
+      if (ret == true) {
+        router.push("/MyItems");
+      }
     } catch (e) {
       console.error(e);
     }

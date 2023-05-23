@@ -15,14 +15,16 @@ const SidebarArea = ({ tokenData }) => {
   const listNft = async (e) => {
     e.preventDefault();
     try {
-      await listWithFixedPrice({
+      const ret = await listWithFixedPrice({
         price: fixedPrice,
         token_id: tokenData.token_id,
       });
+      if (ret == true) {
+        router.push("/Discover");
+      }
     } catch (e) {
       console.error(e);
     }
-    router.push("/Discover");
   };
   return (
     <>

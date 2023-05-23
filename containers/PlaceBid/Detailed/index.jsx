@@ -11,15 +11,24 @@ const Detailed = ({ tokenData }) => {
 
   const bidNft = async (e) => {
     try {
-      await placeBid(tokenData.token_id, bidPrice);
-      router.push("/LiveAuctions");
+      const ret = await placeBid(tokenData.token_id, bidPrice);
+      if (ret == true) {
+        router.push("/LiveAuctions");
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
   const claim = async (e) => {
-    await claimPrize(tokenData.token_id);
+    try {
+      const ret = await claimPrize(tokenData.token_id);
+      if (ret == true) {
+        router.push("/MyItems");
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
   return (
     <>

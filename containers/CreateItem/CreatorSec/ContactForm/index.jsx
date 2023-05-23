@@ -51,15 +51,16 @@ const ContactForm = () => {
       });
 
       // mint
-      await nftMint({ amount: price, metadata: metadata.url });
-
-      setName("");
-      setDescription("");
-      setPrice(0);
-      setAmount(0);
-      setRoyalties(0);
-      setIsLoading(false);
-      router.push("/MyItems");
+      const ret = await nftMint({ amount: price, metadata: metadata.url });
+      if (ret == true) {
+        setName("");
+        setDescription("");
+        setPrice(0);
+        setAmount(0);
+        setRoyalties(0);
+        setIsLoading(false);
+        router.push("/MyItems");
+      }
     } catch (e) {
       console.error(e);
       setIsLoading(false);

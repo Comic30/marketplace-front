@@ -24,15 +24,17 @@ const AuctionForm = ({ tokenData }) => {
   const listNft = async (e) => {
     e.preventDefault();
     try {
-      await listWithAuction({
+      const ret = await listWithAuction({
         start_price: startPrice,
         token_id: tokenData.token_id,
         end_time: expiryDate,
       });
+      if (ret == true) {
+        router.push("/LiveAuctions");
+      }
     } catch (e) {
       console.error(e);
     }
-    router.push("/LiveAuctions");
   };
 
   return (
