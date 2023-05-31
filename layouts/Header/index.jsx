@@ -18,7 +18,7 @@ const Preloader = dynamic(
 );
 
 function Header({ Title }) {
-  const { activeAddress } = useTezosCollectStore();
+  const { activeAddress, currentUser } = useTezosCollectStore();
   useEffect(() => {
     Addshrink();
   }, [window.pageYOffset]);
@@ -77,56 +77,65 @@ function Header({ Title }) {
                   <a className="nav-link">Activity</a>
                 </Link>
               </li>
-              {activeAddress ? (
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    data-toggle="dropdown"
-                  >
-                    Community
-                  </a>
-                  <div className="dropdown-menu">
-                    {data[2].CommunityData &&
-                      data[2].CommunityData.map((item, i) => (
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  data-toggle="dropdown"
+                >
+                  Community
+                </a>
+                <div className="dropdown-menu">
+                  {data[2].CommunityData &&
+                    data[2].CommunityData.map((item, i) => (
+                      <Link key={i} href={item.path}>
+                        <a className="dropdown-item">{item.title}</a>
+                      </Link>
+                    ))}
+                </div>
+              </li>
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  data-toggle="dropdown"
+                >
+                  Pages
+                </a>
+                <div className="dropdown-menu">
+                  {data[1].dataDown &&
+                    data[1].dataDown.map((item, i) => {
+                      if (currentUser && item.title == "Login") {
+                        item.path = "Logout";
+                        item.title = "Logout";
+                      } else if (
+                        currentUser == null &&
+                        item.title == "Logout"
+                      ) {
+                        item.path = "Logins";
+                        item.title = "Login";
+                      }
+
+                      return (
                         <Link key={i} href={item.path}>
                           <a className="dropdown-item">{item.title}</a>
                         </Link>
-                      ))}
-                  </div>
-                </li>
-              ) : (
-                <></>
-              )}
-              {activeAddress ? (
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    data-toggle="dropdown"
-                  >
-                    Pages
-                  </a>
-                  <div className="dropdown-menu">
-                    {data[1].dataDown &&
-                      data[1].dataDown.map((item, i) => (
-                        <Link key={i} href={item.path}>
-                          <a className="dropdown-item">{item.title}</a>
-                        </Link>
-                      ))}
-                  </div>
-                </li>
-              ) : (
-                <></>
-              )}
+                      );
+                    })}
+                </div>
+              </li>
               <li className="nav-item">
                 <Link className="nav-link" href="/ContactUS">
                   <a className="nav-link">Contact</a>
                 </Link>
               </li>
-              <li className="lh-55px">
-                <ConnectWallet />
-              </li>
+              {currentUser ? (
+                <li className="lh-55px">
+                  <ConnectWallet />
+                </li>
+              ) : (
+                <></>
+              )}
             </ul>
           </div>
         </div>

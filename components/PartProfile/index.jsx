@@ -1,4 +1,4 @@
-function PartProfile({ img1, img2, img3, data }) {
+function PartProfile({ img1, img2, img3, data, user, wallet }) {
   return (
     <div className="col-12 col-lg-3">
       <div className="service_single_content collection-item">
@@ -9,7 +9,7 @@ function PartProfile({ img1, img2, img3, data }) {
           <img src={img2.src} width="50" alt="" />
         </span>
         <div className="collection_info text-center">
-          <h6>Morgan Wright</h6>
+          <h6>{user.name}</h6>
           <p className="w-text mr-5p">
             Creative NFTs Designer <img src={img3} width="20" alt="" />
           </p>
@@ -24,7 +24,7 @@ function PartProfile({ img1, img2, img3, data }) {
                 type="text"
                 name="wallet"
                 id="wallet"
-                value="Xjo03s-osi6732..."
+                value={wallet}
                 onChange={() => {}}
               />
               <button className="btn">
@@ -43,9 +43,7 @@ function PartProfile({ img1, img2, img3, data }) {
                 </li>
               ))}
           </ul>
-          <a href="profile.html" className="more-btn">
-            Follow
-          </a>
+          <a className="more-btn">Follow</a>
         </div>
       </div>
     </div>

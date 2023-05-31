@@ -14,14 +14,25 @@ const FilterSec = dynamic(
   { ssr: false }
 );
 
+const CollectionItem = dynamic(
+  () => {
+    return import("./CollectionItem");
+  },
+  { ssr: false }
+);
+
 // import '../../assets/css/profile.css'
 
 const ProfileContainer = () => {
   return (
     <>
       <section className="blog-area section-padding-100">
-        <div className="container text-center">
-          <h1>Profile Page...</h1>{" "}
+        <div className="container">
+          <div className="row">
+            <CollectionItem />
+
+            <FilterSec ClassCol="col-12 col-md-9" data={ProfileData} />
+          </div>
         </div>
       </section>
     </>

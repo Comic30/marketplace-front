@@ -28,6 +28,14 @@
       {
         "path": "/Profile",
         "title": "Profile"
+      },
+      {
+        "path": "/Logins",
+        "title": "Login"
+      },
+      {
+        "path": "/SignUps",
+        "title": "SignUp"
       }
     ]
   },

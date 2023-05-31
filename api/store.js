@@ -44,8 +44,10 @@ const options = {
 };
 
 export const wallet = new BeaconWallet(options);
+const serverUrl = process.env.SERVER_URL;
 
 export const useTezosCollectStore = create((set, get) => ({
+  currentUser: null,
   activeAddress: "",
   setActiveAddress: (_activeAddress) => {
     set((state) => ({
@@ -340,6 +342,49 @@ export const useTezosCollectStore = create((set, get) => ({
       ...state,
       recentActivityData: d2.slice(0, 10),
     }));
+  },
+
+  registerUser: async (user) => {
+    const response = await axios.post(`${serverUrl}/api/users/register`, user);
+    if (response.status == 200) {
+      return true;
+    }
+    return false;
+  },
+
+  login: async (user) => {
+    const response = await axios.post(`${serverUrl}/api/users/login`, user);
+    if (response.status == 200) {
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      return true;
+    }
+    return false;
+  },
+
+  logout: async (user) => {
+    localStorage.removeItem("token");
+    set((state) => ({
+      ...state,
+      currentUser: null,
+    }));
+    return true;
+  },
+
+  loadUser: async (token) => {
+    const response = await axios.get(`${serverUrl}/api/auth`, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    if (response.status == 200) {
+      set((state) => ({
+        ...state,
+        currentUser: response.data,
+      }));
+      return true;
+    }
+    return false;
   },
 
   makeShort: (userAddress) => {

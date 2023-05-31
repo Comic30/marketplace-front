@@ -31,7 +31,7 @@ const ConnectButton = ({}) => {
   };
 
   const connectWallet = async () => {
-    const backed_defined = false;
+    const siwt_enabled = false;
     try {
       const activeAccount = await wallet.client.getActiveAccount();
       if (activeAccount) {
@@ -48,7 +48,7 @@ const ConnectButton = ({}) => {
       // gets user's address
       const userAddress = await wallet.getPKH();
 
-      if (backed_defined) {
+      if (siwt_enabled) {
         // create the message to be signed
         const messagePayload = createMessagePayload({
           dappUrl: "siwt.stakenow.fi",

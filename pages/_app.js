@@ -5,8 +5,37 @@ import "../assets/css/global.css";
 import "../assets/css/countdown.css";
 import "../assets/css/flip-countdown.scss";
 import "../assets/css/slide-countdown.scss";
+import { useEffect } from "react";
+import { useTezosCollectStore } from "api/store";
 
 function MyApp({ Component, pageProps }) {
+  const { loadUser, logout } = useTezosCollectStore();
+
+  useEffect(() => {
+    // try to fetch a user
+    if (localStorage.token) {
+      try {
+        loadUser(localStorage.token);
+      } catch (err) {
+        console.error(err);
+        try {
+          logout();
+        } catch (err1) {
+          console.error(err1);
+        }
+      }
+    }
+
+    window.addEventListener("storage", () => {
+      if (!localStorage.token) {
+        try {
+          logout();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    });
+  }, []);
   return (
     <>
       <Head>
