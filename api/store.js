@@ -11,10 +11,17 @@ import {
   defaultEventCallbacks,
 } from "@airgap/beacon-sdk";
 import { BeaconWallet } from "@taquito/beacon-wallet";
+import { Configuration, OpenAIApi } from "openai";
 
 export const nftStorage = new NFTStorage({
   token: process.env.TOKEN_STORAGE_API_KEY,
 });
+
+export const openAIConfiguration = new Configuration({
+  apiKey: process.env.OPEN_AI_KEY,
+});
+
+export const openai = new OpenAIApi(openAIConfiguration);
 export const Tezos = new TezosToolkit("https://ghostnet.smartpy.io/");
 
 export const hex2buf = (hex) => {

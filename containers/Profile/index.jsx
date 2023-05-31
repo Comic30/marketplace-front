@@ -5,7 +5,7 @@ import { SortingCard } from "../../utils";
 // import CollectionItem from './CollectionItem'
 import Breadcumb from "../../components/Breadcumb";
 // import FilterSec from '../../components/FilterSec'
-import { ProfileData } from "../../data/data-containers/data-Profile.js";
+import { useTezosCollectStore } from "api/store";
 
 const FilterSec = dynamic(
   () => {
@@ -24,6 +24,27 @@ const CollectionItem = dynamic(
 // import '../../assets/css/profile.css'
 
 const ProfileContainer = () => {
+  const { tokenData, fetchNft, currentUser } = useTezosCollectStore();
+  let ProfileData = [];
+  useEffect(() => {
+    fetchNft();
+  }, []);
+  useEffect(() => {
+    if (tokenData) {
+      tokenData.map((item, i) => {
+        const data = {
+          ClassChange: "design",
+          imgBig: `https://ipfs.io/ipfs/${item.image.split("ipfs://")[1]}`,
+          imgSm: currentUser.avatar.substring(2),
+          title: "@Smith Wright",
+          price: 0.081,
+          bid: 0.081,
+        };
+        ProfileData.push(data);
+      });
+      console.log(ProfileData);
+    }
+  }, tokenData);
   return (
     <>
       <section className="blog-area section-padding-100">

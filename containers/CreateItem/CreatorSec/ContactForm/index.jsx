@@ -1,13 +1,10 @@
 import { useState } from "react";
-import {
-  CreateItemDataImg,
-  CreateItemDataInput,
-} from "../../../../data/data-containers/data-ContactForm";
 import { useFilePicker } from "use-file-picker";
 import { File } from "nft.storage";
-import { nftStorage, Tezos, useTezosCollectStore } from "api/store";
+import { nftStorage, useTezosCollectStore, openai } from "api/store";
 import { useRouter } from "next/router";
 import { PropagateLoader } from "react-spinners";
+
 // import data from './data.json'
 
 const ContactForm = () => {
@@ -24,6 +21,8 @@ const ContactForm = () => {
   const [amount, setAmount] = useState(0);
   const [royalties, setRoyalties] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [story, setStory] = useState("");
+  const [image, setImage] = useState("");
 
   const { nftMint } = useTezosCollectStore();
   const onSubmit = async (e) => {
@@ -67,6 +66,21 @@ const ContactForm = () => {
     setIsLoading(false);
   };
 
+  const generateImage = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await openai.createImage({
+        prompt: story,
+        n: 1,
+        size: "512x512",
+      });
+      console.log(res.data.data[0].url);
+      setImage(res.data.data[0].url);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       {!isLoading ? (
@@ -78,23 +92,36 @@ const ContactForm = () => {
               </div>
 
               <div className="col-12 col-md-12">
-                <p className="w-text">Upload Item File</p>
-                <div className="group-file">
-                  <p className="g-text">
-                    PNG, GIF, WEBP, MP4 or MP3. Max 100mb
+                <div className="row">
+                  <p className="col-12 col-md-12 w-text">
+                    Generate an Image using OpenAI
                   </p>
+                  <textarea
+                    className="col-8 col-md-8 p-1"
+                    type="text"
+                    name="story"
+                    id="story"
+                    placeholder="Input the story"
+                    value={story}
+                    onChange={(e) => setStory(e.target.value)}
+                    required
+                  />
+                  <div className="col-1 col-md-1">{}</div>
                   <div
-                    className="new_Btn more-btn"
-                    onClick={(event) => {
-                      openFileSelector();
-                      event.preventDefault();
-                    }}
+                    className="col-3 col-md-3 more-btn"
+                    onClick={generateImage}
                   >
-                    Upload File
+                    Generate Image
                   </div>
-                  {filesContent.length > 0 ? filesContent[0].name : ""}
-                  <br />
-                  {/* <input type="file" name="upload" id="upload-btn" required /> */}
+                  <div className="col-12 col-md-12 group-file">
+                    {image != "" ? (
+                      <>
+                        <img src={image} alt="" />
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="col-12 col-md-12">

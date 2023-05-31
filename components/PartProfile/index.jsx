@@ -9,7 +9,7 @@ function PartProfile({ img1, img2, img3, data, user, wallet }) {
           <img src={img2.src} width="50" alt="" />
         </span>
         <div className="collection_info text-center">
-          <h6>{user.name}</h6>
+          <h6>{user ? user.name : "No user"}</h6>
           <p className="w-text mr-5p">
             Creative NFTs Designer <img src={img3} width="20" alt="" />
           </p>
