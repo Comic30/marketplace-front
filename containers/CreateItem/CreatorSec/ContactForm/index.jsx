@@ -24,41 +24,43 @@ const ContactForm = () => {
   const [story, setStory] = useState("");
   const [image, setImage] = useState("");
 
-  const { nftMint } = useTezosCollectStore();
+  const { nftMint, fetchBase64Image } = useTezosCollectStore();
   const onSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const imgFile = new File(
-        [filesContent[0].content],
-        filesContent[0].name,
-        {
-          type: "image/" + filesContent[0].name.split(".")[1],
+      if (image) {
+        const imgFile = new File([image], "image", {
+          type: "image/png",
+        });
+
+        console.log(imgFile);
+
+        // upload img to ipfs
+        const metadata = await nftStorage.store({
+          name: name,
+          description: description,
+          artist: "Comic30",
+          size: "3000x300",
+          collection: "Test Collection",
+          decimals: 0,
+          symbol: "TBY",
+          image: imgFile,
+        });
+
+        console.log(metadata);
+
+        // mint
+        const ret = await nftMint({ amount: price, metadata: metadata.url });
+        if (ret == true) {
+          setName("");
+          setDescription("");
+          setPrice(0);
+          setAmount(0);
+          setRoyalties(0);
+          setIsLoading(false);
+          router.push("/MyItems");
         }
-      );
-
-      // upload img to ipfs
-      const metadata = await nftStorage.store({
-        name: name,
-        description: description,
-        artist: "Comic30",
-        size: "3000x300",
-        collection: "Test Collection",
-        decimals: 0,
-        symbol: "TBY",
-        image: imgFile,
-      });
-
-      // mint
-      const ret = await nftMint({ amount: price, metadata: metadata.url });
-      if (ret == true) {
-        setName("");
-        setDescription("");
-        setPrice(0);
-        setAmount(0);
-        setRoyalties(0);
-        setIsLoading(false);
-        router.push("/MyItems");
       }
     } catch (e) {
       console.error(e);
@@ -68,17 +70,14 @@ const ContactForm = () => {
 
   const generateImage = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      const res = await openai.createImage({
-        prompt: story,
-        n: 1,
-        size: "512x512",
-      });
-      console.log(res.data.data[0].url);
-      setImage(res.data.data[0].url);
+      const res = await fetchBase64Image({ story }, localStorage.token);
+      setImage(res);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -113,10 +112,15 @@ const ContactForm = () => {
                   >
                     Generate Image
                   </div>
+                  <canvas id="canvas" hidden></canvas>
                   <div className="col-12 col-md-12 group-file">
-                    {image != "" ? (
+                    {image ? (
                       <>
-                        <img src={image} alt="" />
+                        <img
+                          src={`data:image/png;base64,${image}`}
+                          alt=""
+                          style={{ height: "100%", width: "100%" }}
+                        />
                       </>
                     ) : (
                       <></>

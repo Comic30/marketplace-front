@@ -369,15 +369,6 @@ export const useTezosCollectStore = create((set, get) => ({
     return false;
   },
 
-  logout: async (user) => {
-    localStorage.removeItem("token");
-    set((state) => ({
-      ...state,
-      currentUser: null,
-    }));
-    return true;
-  },
-
   loadUser: async (token) => {
     const response = await axios.get(`${serverUrl}/api/auth`, {
       headers: {
@@ -392,6 +383,29 @@ export const useTezosCollectStore = create((set, get) => ({
       return true;
     }
     return false;
+  },
+
+  fetchBase64Image: async (story, token) => {
+    const response = await axios.post(`${serverUrl}/api/image/create`, story, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    if (response.status == 200) {
+      console.log(response.data);
+
+      return response.data;
+    }
+    return undefined;
+  },
+
+  logout: async (user) => {
+    localStorage.removeItem("token");
+    set((state) => ({
+      ...state,
+      currentUser: null,
+    }));
+    return true;
   },
 
   makeShort: (userAddress) => {

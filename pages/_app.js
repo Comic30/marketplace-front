@@ -14,16 +14,11 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     // try to fetch a user
     if (localStorage.token) {
-      try {
-        loadUser(localStorage.token);
-      } catch (err) {
-        console.error(err);
-        try {
+      loadUser(localStorage.token)
+        .then((res) => {})
+        .catch((err) => {
           logout();
-        } catch (err1) {
-          console.error(err1);
-        }
-      }
+        });
     }
 
     window.addEventListener("storage", () => {
