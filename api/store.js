@@ -399,7 +399,7 @@ export const useTezosCollectStore = create((set, get) => ({
     return undefined;
   },
 
-  logout: async (user) => {
+  logout: async () => {
     localStorage.removeItem("token");
     set((state) => ({
       ...state,

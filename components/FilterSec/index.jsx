@@ -8,8 +8,6 @@ const FilterSec = ({ ClassCol = "col-12 col-md-12", data }) => {
     SortingCard();
   }, []);
 
-  console.log("+++++++++++++++++", data);
-  console.log("---------------");
   return (
     <div className={ClassCol}>
       <div className="dream-projects-menu mb-50">
@@ -40,7 +38,11 @@ const FilterSec = ({ ClassCol = "col-12 col-md-12", data }) => {
                   <div className="pricing-item ">
                     <div className="wraper">
                       <Link href="/itemDetails">
-                        <img src={item.imgBig} alt="" />
+                        <img
+                          src={item.imgBig}
+                          style={{ height: "250px", width: "100%" }}
+                          alt=""
+                        />
                       </Link>
                       <Link href="/itemDetails">
                         <h4>Scarecrow in daylight</h4>

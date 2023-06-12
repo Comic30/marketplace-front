@@ -6,6 +6,7 @@ import { SortingCard } from "../../utils";
 import Breadcumb from "../../components/Breadcumb";
 // import FilterSec from '../../components/FilterSec'
 import { useTezosCollectStore } from "api/store";
+import { useRouter } from "next/router";
 
 const FilterSec = dynamic(
   () => {
@@ -25,12 +26,13 @@ const CollectionItem = dynamic(
 
 const ProfileContainer = () => {
   const { tokenData, fetchNft, currentUser } = useTezosCollectStore();
+  const router = useRouter();
   let ProfileData = [];
   useEffect(() => {
     fetchNft();
   }, []);
   useEffect(() => {
-    if (tokenData) {
+    if (tokenData && currentUser) {
       tokenData.map((item, i) => {
         const data = {
           ClassChange: "design",
@@ -43,6 +45,8 @@ const ProfileContainer = () => {
         ProfileData.push(data);
       });
       console.log(ProfileData);
+    } else if (!currentUser) {
+      router.push("/");
     }
   }, tokenData);
   return (

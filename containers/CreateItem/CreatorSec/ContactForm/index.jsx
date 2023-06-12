@@ -9,11 +9,6 @@ import { PropagateLoader } from "react-spinners";
 
 const ContactForm = () => {
   const router = useRouter();
-  const [openFileSelector, { filesContent }] = useFilePicker({
-    accept: [".png", ".jpg", ".jpeg"],
-    multiple: false,
-    readAs: "ArrayBuffer",
-  });
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -30,36 +25,38 @@ const ContactForm = () => {
     setIsLoading(true);
     try {
       if (image) {
-        const imgFile = new File([image], "image", {
-          type: "image/png",
-        });
+        const url = `data:image/png;base64,${image}`;
+        const res = await fetch(url);
+        if (res) {
+          const blob = await res.blob();
 
-        console.log(imgFile);
+          // upload img to ipfs
+          const metadata = await nftStorage.store({
+            name: name,
+            description: description,
+            artist: "Comic30",
+            size: "512x512",
+            collection: "Test Collection",
+            decimals: 0,
+            symbol: "TBY",
+            image: blob,
+          });
 
-        // upload img to ipfs
-        const metadata = await nftStorage.store({
-          name: name,
-          description: description,
-          artist: "Comic30",
-          size: "3000x300",
-          collection: "Test Collection",
-          decimals: 0,
-          symbol: "TBY",
-          image: imgFile,
-        });
+          console.log(metadata);
 
-        console.log(metadata);
-
-        // mint
-        const ret = await nftMint({ amount: price, metadata: metadata.url });
-        if (ret == true) {
-          setName("");
-          setDescription("");
-          setPrice(0);
-          setAmount(0);
-          setRoyalties(0);
-          setIsLoading(false);
-          router.push("/MyItems");
+          // mint
+          const ret = await nftMint({ amount: price, metadata: metadata.url });
+          if (ret == true) {
+            setName("");
+            setDescription("");
+            setPrice(0);
+            setAmount(0);
+            setRoyalties(0);
+            setIsLoading(false);
+            router.push("/MyItems");
+          }
+        } else {
+          console.log("Create NFT Error");
         }
       }
     } catch (e) {
